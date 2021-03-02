@@ -9,12 +9,11 @@ const useStyles = makeStyles({
     marginTop: '20px',
     fontSize: '16px',
     color: 'white',
-    padding: '8px 22px', 
-    width: '100%',
+    padding: '8px 22px',
     height: '43px',
     cursor: 'pointer',
-    boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)'
-  },
+    lineHeight: '40px'
+    },
 });
 
 const ButtonPayment = (props) => {
@@ -23,7 +22,7 @@ const ButtonPayment = (props) => {
 
     return (
         <div>
-            <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+            <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" name="frmProduct" id="frmProduct" >
                 <input name="merchantId" type="hidden" value={merchanId} />
                 <input name="accountId" type="hidden" value={accountId} />
                 <input name="description" type="hidden" value={product} />
@@ -40,12 +39,11 @@ const ButtonPayment = (props) => {
                        value="http://comunicacionescloudberry.com/payment/respuesta_payu.php" />
                 <input name="confirmationUrl" type="hidden"
                        value="http://comunicacionescloudberry.com/payment/confirmation_payu.php" />
-                <input name="Submit"
-                       style={{marginTop: '15px'}}
-                       className={classes.root}
-                       type="submit"
-                       value="Comprar Ahora"/>
             </form>
+
+            <div style={{marginTop: '15px'}} className={classes.root}>
+                Procesando Pedido ...
+            </div>
         </div>
     )
 }

@@ -8,8 +8,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Swal from 'sweetalert2'
 //Actions of Redux
-import {useDispatch} from "react-redux";
+import {useDispatch} from 'react-redux';
 import {dataNewForm} from '../actions/formActions';
+
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -38,6 +40,7 @@ const Formpart1 = ({sendDataOption}) => {
     const [validateEmail, setValidateEmail] = useState({});
     const [error, setError] = useState('');
     const [checked, setChecked] = useState(false);
+    const [disableSubmit,  setDisableSubmit] = useState(false);
 
      const handleChangeCheck = (event) => {
         setChecked(event.target.checked);
@@ -59,6 +62,31 @@ const Formpart1 = ({sendDataOption}) => {
         }
 
     };
+
+
+    const handleBlurChange =  (event) => {
+        let name = event.target.name;
+        let result = event.target.value;
+        if(name ===  'numbercc') {
+            setTimeout(async () => {
+                let _validatecc = await axios.get(`http://comunicacionescloudberry.com/payment/Api/user/${result}`);
+                let _count = _validatecc.data.length;
+                if(_count >= 1){
+                    setDisableSubmit(true);
+                    Swal.fire({
+                        title: 'Alerta!',
+                        text: 'Este número de cédula ya se encuantra activo intenta con otro.',
+                        icon: 'warning',
+                        confirmButtonText: 'Ok'
+                    });
+                }else{
+                    setDisableSubmit(false);
+                }
+            }, 500)
+        }
+    }
+
+
 
     const currencies = [
         {
@@ -192,6 +220,7 @@ const Formpart1 = ({sendDataOption}) => {
                                     helperText={'numbercc' === error.type? error.txt : ''}
                                     value={value.numbercc}
                                     onChange={handleChange}
+                                    onBlur={handleBlurChange}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -255,6 +284,7 @@ const Formpart1 = ({sendDataOption}) => {
                             variant="contained"
                             color="secondary"
                             size="medium"
+                            disabled={disableSubmit}
                             style={{float: 'right'}}
                             className={classes.button}
                             type="submit"

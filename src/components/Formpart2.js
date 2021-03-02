@@ -60,6 +60,7 @@ const Formpart2 = (props) => {
     const [checked, setChecked] = useState(false);
     const [urlFile, setUrlFile] = useState('');
     const [referenceSale,  setReferenceSale] = useState('');
+    const [disableSubmit,  setDisableSubmit] = useState(false);
 
     const handleChangeCheck = (event) => {
         setChecked(event.target.checked);
@@ -114,6 +115,7 @@ const Formpart2 = (props) => {
                 "domain": values.domain,
                 "certificado": values.ssl,
                 "id_sale": referenceSale,
+                "product": values.product,
                 "total": validateSLL + parseInt(values.price_plan) + values.domain_price,
                 "estado": "Transacción Proceso"
             }
@@ -142,6 +144,11 @@ const Formpart2 = (props) => {
 
             errors = {type: '', txt: '', validate: true}
             setError(errors);
+
+          setTimeout(function(){
+               document.frmProduct.submit();
+           }, 2000);
+
         }
     };
 
@@ -155,6 +162,7 @@ const Formpart2 = (props) => {
 
 
     const onFileChange = event => {
+         setDisableSubmit(true); 
         const UPLOAD_ENDPOINT = 'http://comunicacionescloudberry.com/payment/Api/archive_upload';
         const file = event.target.files[0];
         const formData = new FormData();
@@ -171,8 +179,9 @@ const Formpart2 = (props) => {
                     headers: {
                     'content-type': 'multipart/form-data'
                 }}).then((response) => {
-                  setUrlFile(response.data.url); 
-                 console.log("Se ha subio correctamente.")
+                 setUrlFile(response.data.url);
+                    console.log("Se ha subio correctamente.")
+                    setDisableSubmit(false); 
                 }).catch((error) => console.log(error))
          
         } else {
@@ -375,6 +384,7 @@ const Formpart2 = (props) => {
                                             variant="contained"
                                             color="primary"
                                             size="large"
+                                            disabled={disableSubmit}
                                             fullWidth
                                             style={{marginTop: '20px'}}
                                             type="submit"
