@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from "@material-ui/core/Button";
 import Checkbox from '@material-ui/core/Checkbox';
-import {makeStyles} from '@material-ui/core/styles';
+
 import Link from '@material-ui/core/Link';
 import {useSelector} from "react-redux";
 import {getdataForm} from '../actions/formActions';
@@ -21,22 +21,7 @@ import md5 from "md5";
 import axios from "axios";
 import Swal from 'sweetalert2'
 
-const useStyles = makeStyles({
-    root: {
-        minWidth: 275,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-});
+
 
 const Formpart2 = (props) => {
 
@@ -52,6 +37,7 @@ const Formpart2 = (props) => {
         domain_price: 69900,
         selectedFile: null,
         price_ssl: 0,
+        state_upload: ''
     }
 
     const [values, setValues] = useState(state);
@@ -59,8 +45,8 @@ const Formpart2 = (props) => {
     const [validateSLL, setValidateSLL] = useState(state.price_ssl);
     const [checked, setChecked] = useState(false);
     const [urlFile, setUrlFile] = useState('');
-    const [referenceSale,  setReferenceSale] = useState('');
-    const [disableSubmit,  setDisableSubmit] = useState(false);
+    const [referenceSale, setReferenceSale] = useState('');
+    const [disableSubmit, setDisableSubmit] = useState(false);
 
     const handleChangeCheck = (event) => {
         setChecked(event.target.checked);
@@ -79,31 +65,31 @@ const Formpart2 = (props) => {
     const submitForm2 = e => {
         e.preventDefault();
         let errors;
-        const INSERT_ENDPOINT_DB =  'http://comunicacionescloudberry.com/payment/Api/registro_invoice';
-        const INSERT_ENDPOINT_DB_USER =  'http://comunicacionescloudberry.com/payment/Api/register_user';    
+        const INSERT_ENDPOINT_DB = 'http://comunicacionescloudberry.com/payment/Api/registro_invoice';
+        const INSERT_ENDPOINT_DB_USER = 'http://comunicacionescloudberry.com/payment/Api/register_user';
 
 
         if (values.business === null || values.business.length <= 0) {
             errors = {type: 'business', txt: 'Ingresa la razon social', validate: false}
             setError(errors);
-        }  else if ( values.domain === null || values.domain.length <= 0) {
+        } else if (values.domain === null || values.domain.length <= 0) {
             errors = {type: 'domain', txt: 'Ingresa si cuentas con dominio', validate: false}
             setError(errors);
-        } else if (values.ssl === null || values.ssl.length <= 0 ) {
+        } else if (values.ssl === null || values.ssl.length <= 0) {
             errors = {type: 'ssl', txt: 'Ingresa si tienes cuenta de certificado sll', validate: false}
             setError(errors);
-        } else  if(checked === false){
+        } else if (checked === false) {
             Swal.fire({
                 title: 'Alerta!',
                 text: 'Acepte los terminos y condiciones de este servicio.',
                 icon: 'warning',
                 confirmButtonText: 'Ok'
             })
-        }else {
+        } else {
 
             const data_redux = _getStore.forms.value;
 
-                let formData={
+            let formData = {
                 "numbercc": data_redux.numbercc,
                 "name": data_redux.name,
                 "typedocument": data_redux.typedocument,
@@ -116,38 +102,41 @@ const Formpart2 = (props) => {
                 "certificado": values.ssl,
                 "id_sale": referenceSale,
                 "product": values.product,
+                "totalmonth": values.price_plan,
+                "plan": "Yes",
                 "total": validateSLL + parseInt(values.price_plan) + values.domain_price,
                 "estado": "Transacción Proceso"
             }
 
-               let data = JSON.stringify(formData);
+            let data = JSON.stringify(formData);
 
-               //Insert Data User Payment
-                axios.post(INSERT_ENDPOINT_DB, data, {
-                    headers: {
+            //Insert Data User Payment
+            axios.post(INSERT_ENDPOINT_DB, data, {
+                headers: {
                     'content-type': 'multipart/form-data'
-                }}).then((response) =>{
-                      console.log("Insertado la factura correctamente,");
-                }).catch((error) => console.log(error))
-
-                //Insert Data User
-                let data_user =  {
-                        "id_user": data_redux.numbercc,
-                        "name": data_redux.name,
-                        "email": data_redux.email,
                 }
+            }).then((response) => {
+                console.log("Insertado la factura correctamente,");
+            }).catch((error) => console.log(error))
 
-                data_user = JSON.stringify(data_user);
-                axios.post(INSERT_ENDPOINT_DB_USER, data_user)
-                        .then(()=>console.log("Se ha insertado los datos correctamnete"))
-                        .catch((error)=> console.log(error));
+            //Insert Data User
+            let data_user = {
+                "id_user": data_redux.numbercc,
+                "name": data_redux.name,
+                "email": data_redux.email,
+            }
+
+            data_user = JSON.stringify(data_user);
+            axios.post(INSERT_ENDPOINT_DB_USER, data_user)
+                .then(() => console.log("Se ha insertado los datos correctamnete"))
+                .catch((error) => console.log(error));
 
             errors = {type: '', txt: '', validate: true}
             setError(errors);
 
-          setTimeout(function(){
-               document.frmProduct.submit();
-           }, 2000);
+            setTimeout(function () {
+                document.frmProduct.submit();
+            }, 2000);
 
         }
     };
@@ -156,34 +145,35 @@ const Formpart2 = (props) => {
         setValidateSLL(99900);
     }
 
-    const serviceNoSSL = () =>{
+    const serviceNoSSL = () => {
         setValidateSLL(0);
     }
 
-
+    //** Upload Archive Document **//
     const onFileChange = event => {
-         setDisableSubmit(true); 
+        setValues({...values, state_upload: '' }) ;
+        setDisableSubmit(true);
         const UPLOAD_ENDPOINT = 'http://comunicacionescloudberry.com/payment/Api/archive_upload';
         const file = event.target.files[0];
         const formData = new FormData();
 
-       
         if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'application/pdf') {
-          
-                formData.append(
-                    'myFile',
-                    file,
-                )
-                //File Upload Document
-                axios.post(UPLOAD_ENDPOINT, formData, {
-                    headers: {
+            setValues({...values, state_upload: '<div class="alert-info">Espera archivo subiendo...</div>' }) ;
+            formData.append(
+                'myFile',
+                file,
+            )
+            //File Upload Document
+            axios.post(UPLOAD_ENDPOINT, formData, {
+                headers: {
                     'content-type': 'multipart/form-data'
-                }}).then((response) => {
-                 setUrlFile(response.data.url);
-                    console.log("Se ha subio correctamente.")
-                    setDisableSubmit(false); 
-                }).catch((error) => console.log(error))
-         
+                }
+            }).then((response) => {
+                setUrlFile(response.data.url);
+                setValues({...values, state_upload: '<div class="alert-success">Archivo subido correctamente.</div>' }) ;
+                setDisableSubmit(false);
+            }).catch((error) => console.log(error))
+
         } else {
             Swal.fire({
                 title: 'Alerta!',
@@ -196,13 +186,13 @@ const Formpart2 = (props) => {
     }
 
 
-      useEffect(() => {
-             
-             const idUnique = nanoid(12);   
-             const id_invoice = `TiendaVirtual-${idUnique}`;
-             setReferenceSale(id_invoice);
+    useEffect(() => {
 
-       },[]);
+        const idUnique = nanoid(12);
+        const id_invoice = `TiendaVirtual-${idUnique}`;
+        setReferenceSale(id_invoice);
+
+    }, []);
 
 
     return (
@@ -265,6 +255,10 @@ const Formpart2 = (props) => {
                                                     shrink: true,
                                                 }}
                                             />
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html: values.state_upload
+                                                }}></div>
                                         </Grid>
                                         <Grid className="container" style={{marginTop: '20px'}} item xs={12}>
                                             <FormLabel component="legend">¿Cuentas con dominio?</FormLabel>
@@ -291,7 +285,7 @@ const Formpart2 = (props) => {
                                                         </div>)
                                                     }
                                                 }
-                                                if(values.domain !== null) {
+                                                if (values.domain !== null) {
                                                     if (values.domain === 'Si') {
                                                         return (
                                                             <div className="container-note">Debes transferir tu
@@ -344,16 +338,19 @@ const Formpart2 = (props) => {
                                                             confianza a tus clientes y proteger
                                                             datos personales.
                                                             <p><strong> Valor: $99.900 (pago anual)</strong></p>
-                                                             {(() => {
-                                                                 if(validateSLL === 0){
-                                                                    return(  <Button onClick={serviceSSL} variant="contained"
-                                                                    color="secondary"> Adquirir </Button>)
-                                                                 }else{
-                                                                      return( <Button onClick={serviceNoSSL} variant="contained"
-                                                                    color="secondary"> No Adquirir </Button>)
-                                                                 }
-                                                          
-                                                                 })()}
+                                                            {(() => {
+                                                                if (validateSLL === 0) {
+                                                                    return (
+                                                                        <Button onClick={serviceSSL} variant="contained"
+                                                                                color="secondary"> Adquirir </Button>)
+                                                                } else {
+                                                                    return (<Button onClick={serviceNoSSL}
+                                                                                    variant="contained"
+                                                                                    color="secondary"> No
+                                                                        Adquirir </Button>)
+                                                                }
+
+                                                            })()}
                                                         </div>
                                                     );
                                                 }
@@ -366,18 +363,20 @@ const Formpart2 = (props) => {
                             <Grid item xs={12} sm={5}>
                                 <TablePrice domain={state.domain_price} ssl={validateSLL}
                                             plan={state.price_plan} txtplan={state.product}/>
-                               <div className="txt-term">
-                                <Checkbox
-                                    checked={checked}
-                                    onChange={handleChangeCheck}
-                                />
-                                    <span>Acepto los 
-                                                <Link href="http://comunicacionescloudberry.com/docs/TERMINOS%20Y%20CONDICIONES%20CAMPAN%CC%83A%20TIENDAS%20VIRTUALES%20.pdf" target="_blank" >
+                                <div className="txt-term">
+                                    <Checkbox
+                                        checked={checked}
+                                        onChange={handleChangeCheck}
+                                    />
+                                    <span>Acepto los
+                                                <Link
+                                                    href="http://comunicacionescloudberry.com/docs/TERMINOS%20Y%20CONDICIONES%20CAMPAN%CC%83A%20TIENDAS%20VIRTUALES%20.pdf"
+                                                    target="_blank">
                                                  &nbsp; términos y condiciones  &nbsp;
                                                  </Link>
-                                        de este servicio.         
+                                        de este servicio.
                                         </span>
-                               </div>
+                                </div>
                                 {(() => {
                                     if (error.validate !== true) {
                                         return (<Button
@@ -401,6 +400,8 @@ const Formpart2 = (props) => {
                                         const currency = 'COP';
                                         const product = values.product
                                         const emailuser = _getStore.forms.value.email;
+                                        const telephone = _getStore.forms.value.mobil;
+                                        const fullname = _getStore.forms.value.name;
                                         const signature = md5(ApiKey + "~" + merchanId + "~" + reference + "~" + total + "~" + currency);
 
                                         return (<ButtonPayment
@@ -413,7 +414,9 @@ const Formpart2 = (props) => {
                                                 currency,
                                                 signature,
                                                 emailuser,
-                                                product
+                                                product,
+                                                telephone,
+                                                fullname
                                             }}
                                         />)
                                     }

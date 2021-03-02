@@ -64,11 +64,11 @@ const Formpart1 = ({sendDataOption}) => {
     };
 
 
-    const handleBlurChange =  (event) => {
+    const handleBlurChange =  async (event) => {
         let name = event.target.name;
         let result = event.target.value;
         if(name ===  'numbercc') {
-            setTimeout(async () => {
+
                 let _validatecc = await axios.get(`http://comunicacionescloudberry.com/payment/Api/user/${result}`);
                 let _count = _validatecc.data.length;
                 if(_count >= 1){
@@ -82,7 +82,7 @@ const Formpart1 = ({sendDataOption}) => {
                 }else{
                     setDisableSubmit(false);
                 }
-            }, 500)
+
         }
     }
 
@@ -228,7 +228,7 @@ const Formpart1 = ({sendDataOption}) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={1}>
-                            
+
                             <Grid item xs={12} sm={12}>
                                 <TextField
                                     id="mobil"

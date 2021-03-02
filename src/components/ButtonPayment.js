@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 const ButtonPayment = (props) => {
     const classes = useStyles();
-    const {accountId, currency, merchanId, total, reference, signature, emailuser, product } = props.data;
+    const {accountId, currency, merchanId, total, reference, signature, emailuser, product, telephone, fullname } = props.data;
 
     return (
         <div>
@@ -35,6 +35,8 @@ const ButtonPayment = (props) => {
                        value={signature} />
                 <input name="test" type="hidden" value="1" />
                 <input name="buyerEmail" type="hidden" value={emailuser} />
+                <input name="buyerFullName" type="hidden" value={fullname} />
+                <input name="mobilePhone" type="hidden" value={telephone} />
                 <input name="responseUrl" type="hidden"
                        value="http://comunicacionescloudberry.com/payment/respuesta_payu.php" />
                 <input name="confirmationUrl" type="hidden"

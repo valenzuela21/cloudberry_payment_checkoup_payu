@@ -6,6 +6,18 @@
   display: block!important;
 }
 
+.alert-success{
+  background: #139533cf;
+  padding: 10px;
+  color: #fff;
+}
+
+.alert-info{
+  background: #f50057a6;
+  padding: 10px;
+  color: #fff;
+}
+
 .container-note {
   background: #ddd;
   color: #606060;
@@ -62,6 +74,29 @@
   height: 90px;
   display: block;
 }
+
+.txt-alert-account{
+  text-align: center;
+  margin-top: 60px;
+  color: #666;
+}
+
+.btn-alert-shop-virtual{
+  background: #e20c3b;
+  padding: 10px;
+  margin: 60px;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  width: 150px;
+  border-radius: 4px;
+  margin: auto;
+}
+
+.btn-alert-shop-virtual:hover {
+  background:#1a2e6d;
+}
+
 @media only screen and (max-width: 790px) {
   .banner-paymen {
     background-size: contain;

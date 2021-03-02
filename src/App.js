@@ -31,22 +31,22 @@ function App() {
         <>
        <Grid container spacing={3}>
         <Grid item xs>
-        <div class="img-logo"></div>
+        <div className="img-logo"></div>
         </Grid>
         <Grid item xs>
-       
+
         </Grid>
         <Grid item xs>
-         
+
         </Grid>
        </Grid>
         <Grid item xs={12}>
-        <div class="banner-paymen"></div>
+        <div className="banner-paymen"></div>
         </Grid>
-           
+
         <div className="App container-payment">
             {(() => {
-                if (product != undefined && price != undefined) {
+                if (product !== null && price !== null) {
                     return (<Provider store={store}>
                         {(() => {
                             if (option !== false) {
@@ -57,9 +57,14 @@ function App() {
                         })()}
                     </Provider>)
                 }else{
-                    return (<div className="container-error">
-                        Error! No hay producto o servicio seleccionado.
-                    </div>)
+                    return (
+                        <div className="txt-alert-account">
+                        <h2>Planes servicio de tienda online</h2>
+                            <p>Mayor información</p>
+                            <a href="http://comunicacionescloudberry.com/tienda-virtual" className="btn-alert-shop-virtual" target="_blank">Tienda Virtual</a>
+                        <p>(1) 841 8808 / 300 579 8099 creativo.cloudberry.com.co atencionalcliente@cloudberry.com.co</p>
+                        </div>
+                       )
                 }
             })()}
 
