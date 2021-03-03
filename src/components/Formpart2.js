@@ -88,9 +88,12 @@ const Formpart2 = (props) => {
         } else {
 
             const data_redux = _getStore.forms.value;
+            const IDUSER = `ID-${nanoid()}`
 
             let formData = {
-                "numbercc": data_redux.numbercc,
+                "id_user": IDUSER,
+                "id_sale": referenceSale,
+                "cedula": data_redux.numbercc,
                 "name": data_redux.name,
                 "typedocument": data_redux.typedocument,
                 "mobil": data_redux.mobil,
@@ -100,7 +103,6 @@ const Formpart2 = (props) => {
                 "document": urlFile,
                 "domain": values.domain,
                 "certificado": values.ssl,
-                "id_sale": referenceSale,
                 "product": values.product,
                 "totalmonth": values.price_plan,
                 "plan": "Yes",
@@ -116,19 +118,20 @@ const Formpart2 = (props) => {
                     'content-type': 'multipart/form-data'
                 }
             }).then((response) => {
-                console.log("Insertado la factura correctamente,");
+                console.log("Insertado la factura correctamente.");
             }).catch((error) => console.log(error))
 
             //Insert Data User
             let data_user = {
-                "id_user": data_redux.numbercc,
+                "id_user": IDUSER,
+                "cedula": data_redux.numbercc,
                 "name": data_redux.name,
                 "email": data_redux.email,
             }
 
             data_user = JSON.stringify(data_user);
             axios.post(INSERT_ENDPOINT_DB_USER, data_user)
-                .then(() => console.log("Se ha insertado los datos correctamnete"))
+                .then(() => console.log("Se ha registrado un nuevo usuario."))
                 .catch((error) => console.log(error));
 
             errors = {type: '', txt: '', validate: true}
