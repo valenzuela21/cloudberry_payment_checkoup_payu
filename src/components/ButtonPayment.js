@@ -40,7 +40,7 @@ const ButtonPayment = (props) => {
                 <input name="responseUrl" type="hidden"
                        value="http://comunicacionescloudberry.com/payment/respuesta_payu.php" />
                 <input name="confirmationUrl" type="hidden"
-                       value="http://comunicacionescloudberry.com/payment/confirmation_payu.php" />
+                       value="http://comunicacionescloudberry.com/payment/Api/confirmation" />
             </form>
 
             <div style={{marginTop: '15px'}} className={classes.root}>
