@@ -106,6 +106,7 @@ const Formpart2 = (props) => {
                 "product": values.product,
                 "totalmonth": values.price_plan,
                 "plan": "Yes",
+                "month": 1,
                 "total": validateSLL + parseInt(values.price_plan) + values.domain_price,
                 "estado": "Transacción Proceso"
             }
