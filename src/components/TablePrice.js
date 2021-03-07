@@ -25,8 +25,8 @@ function TablePrice(props){
     const classes = useStyles();
 
 
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
+    function createData(name, calories) {
+        return { name, calories };
     }
 
     const rows = [
@@ -43,12 +43,13 @@ function TablePrice(props){
 
 
     return(<div>
-       
+
         <TableContainer component={Paper}>
             <Table className={classes.table} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Servicio</TableCell>
+                        <TableCell>Cantidad</TableCell>
                         <TableCell align="right">Precio</TableCell>
                     </TableRow>
                 </TableHead>
@@ -58,14 +59,19 @@ function TablePrice(props){
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
+                            <TableCell align="right">
+                              1
+                            </TableCell>
+                            <TableCell align="right">
+                                {row.calories}
+                            </TableCell>
                         </TableRow>
-
                     ))}
                     <TableRow>
                         <TableCell component="th" scope="row">
                          <h3>Total</h3>
                         </TableCell>
+                        <TableCell component="th" scope="row"></TableCell>
                         <TableCell align="right"><h3>{total()}</h3></TableCell>
                     </TableRow>
                 </TableBody>

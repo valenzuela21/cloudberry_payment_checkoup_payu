@@ -64,12 +64,33 @@ const Formpart1 = ({sendDataOption}) => {
     };
 
 
+    const handleBlurEmail = async (event) =>{
+        let name = event.target.name;
+        let result = event.target.value;
+        if(name ===  'email') {
+            const URL_VALIDATE_FORM_CHECKOUP = `http://comunicacionescloudberry.com/payment/Api/user/${result}`
+            let _validate_email = await axios.get(URL_VALIDATE_FORM_CHECKOUP);
+            let _count = _validate_email.data.length;
+            if (_count >= 1) {
+                setDisableSubmit(true);
+                Swal.fire({
+                    title: 'Alerta!',
+                    text: 'Este correo electrónico ya se encuentra ocupado.',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok'
+                });
+            } else {
+                setDisableSubmit(false);
+            }
+        }
+    }
+
     const handleBlurChange =  async (event) => {
         let name = event.target.name;
         let result = event.target.value;
         if(name ===  'numbercc') {
-
-                let _validatecc = await axios.get(`http://comunicacionescloudberry.com/payment/Api/user/${result}`);
+                const URL_VALIDATE_FORM_CHECKOUP = `http://comunicacionescloudberry.com/payment/Api/user/${result}`
+                let _validatecc = await axios.get(URL_VALIDATE_FORM_CHECKOUP);
                 let _count = _validatecc.data.length;
                 if(_count >= 1){
                     setDisableSubmit(true);
@@ -264,6 +285,7 @@ const Formpart1 = ({sendDataOption}) => {
                                     helperText={'email' === error.type? error.txt : ''}
                                     value={value.email}
                                     onChange={handleChange}
+                                    onBlur={handleBlurEmail}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}

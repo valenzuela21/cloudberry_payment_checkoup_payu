@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import Formpart1 from "./components/Formpart1";
 import Formpart2 from "./components/Formpart2";
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import PersonIcon from '@material-ui/icons/Person';
 import './App.css';
 
 // Redux
@@ -30,14 +32,16 @@ function App() {
     return (
         <>
        <Grid container spacing={3}>
-        <Grid item xs>
+        <Grid item xs={3} sm={3} >
         <div className="img-logo"></div>
         </Grid>
-        <Grid item xs>
+        <Grid item xs={3} sm={7}>
 
         </Grid>
-        <Grid item xs>
-
+        <Grid item xs={6}  sm={2} style={{padding: '40px'}}>
+            <Link href="http://comunicacionescloudberry.com/admin" >
+                <PersonIcon style={{top: '5px', position: 'relative'}}/> Ingresar Cuenta
+            </Link>
         </Grid>
        </Grid>
         <Grid item xs={12}>

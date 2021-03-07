@@ -280,6 +280,7 @@ const Formpart2 = (props) => {
                                                     control={<Radio color="primary"/>}
                                                     label="No"/>
                                             </RadioGroup>
+
                                             {(() => {
                                                 if ('domain' === error.type) {
                                                     if (values.domain === null) {
@@ -308,6 +309,7 @@ const Formpart2 = (props) => {
                                                 }
 
                                             })()}
+
                                         </Grid>
                                         <Grid className="container" style={{marginTop: '20px'}} item xs={12}>
                                             <FormLabel component="legend">¿Cuentas con certificado de
@@ -359,8 +361,10 @@ const Formpart2 = (props) => {
                                                     );
                                                 }
                                             })()}
+
                                         </Grid>
                                     </Grid>
+
                                 </Grid>
 
                             </Grid>
