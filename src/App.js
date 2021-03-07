@@ -32,13 +32,13 @@ function App() {
     return (
         <>
        <Grid container spacing={3}>
-        <Grid item xs={3} sm={3} >
+        <Grid item xs={3} md={3} sm={2} lg={3} >
         <div className="img-logo"></div>
         </Grid>
-        <Grid item xs={3} sm={7}>
+        <Grid item xs={3} md={6} sm={5} lg={7}>
 
         </Grid>
-        <Grid item xs={6}  sm={2} style={{padding: '40px'}}>
+        <Grid item xs={6} md={3} sm={5} lg={2} style={{padding: '40px'}}>
             <Link href="http://comunicacionescloudberry.com/admin" >
                 <PersonIcon style={{top: '5px', position: 'relative'}}/> Ingresar Cuenta
             </Link>
