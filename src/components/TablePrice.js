@@ -25,14 +25,14 @@ function TablePrice(props){
     const classes = useStyles();
 
 
-    function createData(name, calories) {
-        return { name, calories };
+    function createData(name, count,calories) {
+        return { name, count ,calories };
     }
 
     const rows = [
-        createData('Dominio / Pago Anual', formatter.format(props.domain)),
-        createData('Certificado SSL / Pago Anual', formatter.format(props.ssl)),
-        createData('Tienda Virtual Primer Mes', formatter.format(props.plan)),
+        createData('Dominio / Pago Anual', '1' ,formatter.format(props.domain)),
+        createData('Certificado SSL / Pago Anual', props.countsll ,formatter.format(props.ssl)),
+        createData('Tienda Virtual Primer Mes', '1' ,formatter.format(props.plan)),
     ];
 
 
@@ -60,7 +60,7 @@ function TablePrice(props){
                                 {row.name}
                             </TableCell>
                             <TableCell align="right">
-                              1
+                                {row.count}
                             </TableCell>
                             <TableCell align="right">
                                 {row.calories}

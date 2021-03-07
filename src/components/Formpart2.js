@@ -35,8 +35,10 @@ const Formpart2 = (props) => {
         price_plan: price || 0,
         product: product || '',
         domain_price: 69900,
+        count_domain: 1,
         selectedFile: null,
         price_ssl: 0,
+        count_sll: 0,
         state_upload: ''
     }
 
@@ -102,7 +104,9 @@ const Formpart2 = (props) => {
                 "type": values.type,
                 "document": urlFile,
                 "domain": values.domain,
+                "count_domain": values.count_domain,
                 "certificado": values.ssl,
+                "count_certficado": values.count_sll,
                 "product": values.product,
                 "totalmonth": values.price_plan,
                 "plan": "Yes",
@@ -146,10 +150,12 @@ const Formpart2 = (props) => {
     };
 
     const serviceSSL = () => {
+        setValues({...values, count_sll : 1 })
         setValidateSLL(99900);
     }
 
     const serviceNoSSL = () => {
+        setValues({...values, count_sll : 0 })
         setValidateSLL(0);
     }
 
@@ -370,7 +376,7 @@ const Formpart2 = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={5}>
                                 <TablePrice domain={state.domain_price} ssl={validateSLL}
-                                            plan={state.price_plan} txtplan={state.product}/>
+                                            plan={state.price_plan} txtplan={state.product} countsll={values.count_sll} />
                                 <div className="txt-term">
                                     <Checkbox
                                         checked={checked}
