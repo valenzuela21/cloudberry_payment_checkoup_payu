@@ -215,7 +215,7 @@ const Formpart2 = (props) => {
                         <h3 style={{textAlign: 'center', color: '#7b7b7b'}}>¡Ya casi! Ahora llena algunos datos de tu
                             negocio:</h3>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} md={6} sm={7}>
+                            <Grid item xs={12} md={6} sm={6} lg={7}>
                                 <TextField
                                     id="business"
                                     label="Nómbre / Razón Social"
@@ -374,7 +374,7 @@ const Formpart2 = (props) => {
                                 </Grid>
 
                             </Grid>
-                            <Grid item xs={12} md={6} sm={5}>
+                            <Grid item xs={12} md={6} sm={6} lg={5}>
                                 <TablePrice domain={state.domain_price} ssl={validateSLL}
                                             plan={state.price_plan} txtplan={state.product} countsll={values.count_sll} />
                                 <div className="txt-term">
