@@ -106,7 +106,7 @@ const Formpart2 = (props) => {
                 "domain": values.domain,
                 "count_domain": values.count_domain,
                 "certificado": values.ssl,
-                "count_certficado": values.count_sll,
+                "count_ssl": values.count_sll,
                 "product": values.product,
                 "totalmonth": values.price_plan,
                 "plan": "Yes",
